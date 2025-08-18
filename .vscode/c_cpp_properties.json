@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "VeriSim",
+            "includePath": [
+                "${workspaceFolder}/Verisim/include/**",
+                "${workspaceFolder}/Verisim/lib/**",
+                "${workspaceFolder}/Verisim/build/verilated/**",
+                "/usr/share/verilator/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

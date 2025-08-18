@@ -1,0 +1,14 @@
+Inputs and Outputs
+The inputs and outputs are fixed
+The names of the inputs and outputs are fixed
+The inputs: Serial input RX (connected to the keyboard, or a .dat file), dip switches, push buttons, clock speed slider
+The outpus: LCD matrix, discrete LEDs, 7-segment display, serial monitor
+The clock speed is assumed to be 50MHz (although might run slower in simulation)
+
+The Logic
+The clock runs at max CPU speed (As much as the host PC allows)
+The GUI is updated with the latest state at 60 FPS
+The actuation of GUI inputs will trigger events (callback handlers), which update the verilator inputs
+Each clock tick or input change (from GUI) will cause the states to be dumped (for GTKWave)
+
+The user will write his verilog code, will run a bash script, the code will compile and the GUI will run, exposing the inputs and outputs.
