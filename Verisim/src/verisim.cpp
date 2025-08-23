@@ -20,8 +20,9 @@ void VeriSim::setClockFrequencyHz(uint32_t freq) {
     clock_period_ns = 1'000'000'000 / freq;
 }
 
+/* Call this function every clock toggle */
 void VeriSim::increaseSimTime() {
-    sim_time_ns += clock_period_ns;
+    sim_time_ns += clock_period_ns / 2;
 }
 
 void VeriSim::restartModule() {
@@ -188,19 +189,19 @@ CData VeriSim::getOutput_sevenSegment1_x(CData idx) {
 
 /* Modifier for Module Inputs */
 void VeriSim::setInput_clk() {
-    helper::setData(module->clk);
+    module->clk = 1;
 }
 void VeriSim::setInput_rst() {
-    helper::setData(module->rst_n);
+    module->rst_n = 1;
 }
 void VeriSim::setInput_toggleButton() {
-    helper::setData(module->toggle_btn);
+    module->toggle_btn = 1;
 }
 void VeriSim::setInput_rx0() {
-    helper::setData(module->RX0);
+    module->RX0 = 1;
 }
 void VeriSim::setInput_rx1() {
-    helper::setData(module->RX1);
+    module->RX1 = 1;
 }
 void VeriSim::setInput_buttons() {
     helper::setData(module->buttons);
@@ -228,19 +229,19 @@ void VeriSim::setInput_bus1_x(CData idx) {
 }
 ////////////////////////
 void VeriSim::resetInput_clk() {
-    helper::resetData(module->clk);
+    module->clk = 0;
 }
 void VeriSim::resetInput_rst() {
-    helper::resetData(module->rst_n);
+    module->rst_n = 0;
 }
 void VeriSim::resetInput_toggleButton() {
-    helper::resetData(module->toggle_btn);
+    module->toggle_btn = 0;
 }
 void VeriSim::resetInput_rx0() {
-    helper::resetData(module->RX0);
+    module->RX0 = 0;
 }
 void VeriSim::resetInput_rx1() {
-    helper::resetData(module->RX1);
+    module->RX1 = 0;
 }
 void VeriSim::resetInput_buttons() {
     helper::resetData(module->buttons);
@@ -268,19 +269,19 @@ void VeriSim::resetInput_bus1_x(CData idx) {
 }
 ////////////////////////
 void VeriSim::flipInput_clk() {
-    helper::flipData(module->clk);
+    module->clk = !module->clk;
 }
 void VeriSim::flipInput_rst() {
-    helper::flipData(module->rst_n);
+    module->rst_n = module->rst_n;
 }
 void VeriSim::flipInput_toggleButton() {
-    helper::flipData(module->toggle_btn);
+    module->toggle_btn = !module->toggle_btn;
 }
 void VeriSim::flipInput_rx0() {
-    helper::flipData(module->RX0);
+    module->RX0 = !module->RX0;
 }
 void VeriSim::flipInput_rx1() {
-    helper::flipData(module->RX1);
+    module->RX1 = !module->RX1;
 }
 void VeriSim::flipInput_buttons() {
     helper::flipData(module->buttons);

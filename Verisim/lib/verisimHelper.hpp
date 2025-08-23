@@ -59,9 +59,8 @@ namespace helper {
     template<typename T>
     inline void flipData(T& data) {
         static_assert(std::is_integral<T>::value, "T must be integral");
-        data ^= std::numeric_limits<T>::max();
+        data ^= static_cast<T>(std::numeric_limits<T>::max());
     }
-
 }
 
 #endif
