@@ -3,6 +3,7 @@
 
 #include "verilated.h"
 #include "Vverisim.h"
+#include "verilated_vcd_c.h"
 
 namespace verisim_ns {
 
@@ -16,7 +17,10 @@ namespace verisim_ns {
         void updateModule();
         void initializeModule();
         void toggleClock();
-        void GTKWaveDump();
+        void enableVcdDump();
+        void disableVcdDump();
+        void increaseSimTime();
+        void setClockFrequencyHz(uint32_t freq);
 
         /* Getters for Module Inputs */
         CData getInput_clk();
@@ -42,27 +46,27 @@ namespace verisim_ns {
 
         /* Getters for Module Outputs */
         CData getOutput_leds();
-        CData getOutputs_led_x(CData idx);
+        CData getOutput_led_x(CData idx);
 
-        CData getOuptut_pwmRed();
+        CData getOutput_pwmRed();
         CData getOutput_pwmGreen();
         CData getOutput_pwmBlue();
         CData getOutput_pwmGeneral();
 
-        CData getOuput_tx0();
+        CData getOutput_tx0();
         CData getOutput_tx1();
 
         IData getOutput_bus0();
         CData getOutput_bus0_x(CData idx);
-        float getOutputs_bus0_float();
-        int   getOutputs_bus0_int();
-        char  getOutputs_bus0_char();
+        float getOutput_bus0_float();
+        int   getOutput_bus0_int();
+        char  getOutput_bus0_char();
 
         IData getOutput_bus1();
         CData getOutput_bus1_x(CData idx);
-        float getOutputs_bus1_float();
-        int   getOutputs_bus1_int();
-        char  getOutputs_bus1_char();
+        float getOutput_bus1_float();
+        int   getOutput_bus1_int();
+        char  getOutput_bus1_char();
 
         CData getOutput_sevenSegment0();
         CData getOutput_sevenSegment0_x(CData idx);
@@ -115,6 +119,11 @@ namespace verisim_ns {
     
     private:
         Vverisim* module;
+        bool isDumpEnabled = false;
+        VerilatedVcdC* vcdDumper;
+        vluint64_t sim_time_ns = 0;
+        uint32_t clock_freq_hz = 1'000'000; // 1 MHz 
+        uint32_t clock_period_ns = 1000; // 1us
     };
 } // namespace verisim_ns
 

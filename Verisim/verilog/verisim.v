@@ -15,7 +15,8 @@ module verisim (
     input  wire [31:0] in_bus1,        // 32-bit input bus #1
 
     // Outputs
-    output wire [15:0] sevenseg,       // {disp1[7:0], disp0[7:0]} : two 7-seg+dp
+    output wire [7:0] sevenseg0,     // right digit
+    output wire [7:0] sevenseg1,     // left digit
     output reg  [31:0] out_bus0,       // 32-bit output bus #0
     output reg  [31:0] out_bus1,       // 32-bit output bus #1
     output wire        pwm_r,          // PWM R (or buzzer)
@@ -113,9 +114,8 @@ module verisim (
     wire [7:0] seg_left  = sevenseg_hex(nibble_left);
     wire [7:0] seg_right = sevenseg_hex(nibble_right);
 
-    // two displays packed into 16 bits
-    // [15:8] = left display, [7:0] = right display
-    assign sevenseg = {seg_left, seg_right};
+    assign sevenseg0 = seg_right; // right display (dips[3:0])
+    assign sevenseg1 = seg_left;  // left display (#buttons pressed)
 
     // =========================================================================
     // Output buses: simple demo transforms
