@@ -1,6 +1,5 @@
 #include "verisim.hpp"
-#include <iostream>
 
-int main() {
-    std::cout << "Test Test" << std::endl;
+int main(int argc, char** argv) {
+    verisim_ns::VeriSim* veriSim = new verisim_ns::VeriSim(argc, argv);
 }

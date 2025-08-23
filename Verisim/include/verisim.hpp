@@ -2,16 +2,19 @@
 #define VERISIM_HPP
 
 #include "verilated.h"
+#include "Vverisim.h"
 
-namespace verisim {
+namespace verisim_ns {
 
     class VeriSim {
     public:
-        VeriSim();
+        VeriSim(int argc, char** argv);
         ~VeriSim();
 
         /* Action functions */
+        void restartModule();
         void updateModule();
+        void initializeModule();
         void toggleClock();
         void GTKWaveDump();
 
@@ -109,8 +112,11 @@ namespace verisim {
         void flipInput_bus0_x(CData idx);
         void flipInput_bus1();
         void flipInput_bus1_x(CData idx);
+    
+    private:
+        Vverisim* module;
     };
-}
+} // namespace verisim_ns
 
 
 

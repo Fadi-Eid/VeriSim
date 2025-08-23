@@ -10,11 +10,13 @@ set(VERILOG_SOURCES
 set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/verisim.cpp
+    /usr/share/verilator/include/verilated.cpp
+    /usr/share/verilator/include/verilated_vcd_c.cpp # only if trace enabled
 )
 
 set(VERILATOR_OUTPUT_DIR ${CMAKE_BINARY_DIR}/verilated)
 
-# Run Verilator to generate C++ model (creates Vverisim.mk and Vverisim.h)
+# Run Verilator
 add_custom_command(
     OUTPUT ${VERILATOR_OUTPUT_DIR}/Vverisim.mk ${VERILATOR_OUTPUT_DIR}/Vverisim.h
     COMMAND verilator --cc ${VERILOG_SOURCES}
@@ -24,37 +26,28 @@ add_custom_command(
     COMMENT "Running Verilator..."
 )
 
-# Build Verilator-generated model
+# Build verilated model
 add_custom_command(
     OUTPUT ${VERILATOR_OUTPUT_DIR}/Vverisim__ALL.a
     COMMAND make -C ${VERILATOR_OUTPUT_DIR} -f Vverisim.mk
-    DEPENDS ${VERILATOR_OUTPUT_DIR}/Vverisim.mk
+    DEPENDS ${VERILATOR_OUTPUT_DIR}/Vverisim.mk ${VERILATOR_OUTPUT_DIR}/Vverisim.h
     COMMENT "Building Verilated model..."
 )
 
-# Define a target for generated files
 add_custom_target(verisim_generated
     DEPENDS ${VERILATOR_OUTPUT_DIR}/Vverisim__ALL.a
 )
 
-# Define a library target from Verilator’s archive
-add_library(verisim_model STATIC IMPORTED GLOBAL)
-set_target_properties(verisim_model PROPERTIES
-    IMPORTED_LOCATION ${VERILATOR_OUTPUT_DIR}/Vverisim__ALL.a
-)
-
-# Your own executable
 add_executable(verisim ${CPP_SOURCES})
 
 target_include_directories(verisim PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/lib
-    ${VERILATOR_OUTPUT_DIR}                      # for Vverisim.h
+    ${VERILATOR_OUTPUT_DIR}
     /usr/share/verilator/include
     /usr/share/verilator/include/vltstd
 )
 
-# Make sure sources wait for generated headers
 add_dependencies(verisim verisim_generated)
-target_link_libraries(verisim PRIVATE verisim_model)
 
+target_link_libraries(verisim PRIVATE ${VERILATOR_OUTPUT_DIR}/Vverisim__ALL.a)
