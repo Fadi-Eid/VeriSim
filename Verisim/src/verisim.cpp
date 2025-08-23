@@ -21,7 +21,7 @@ void VeriSim::setClockFrequencyHz(uint32_t freq) {
 }
 
 /* Call this function every clock toggle */
-void VeriSim::increaseSimTime() {
+void VeriSim::incrementSimTime() {
     sim_time_ns += clock_period_ns / 2;
 }
 

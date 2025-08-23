@@ -12,14 +12,14 @@ namespace verisim_ns {
         VeriSim(int argc, char** argv);
         ~VeriSim();
 
-        /* Action functions */
+        /* Main module functions */
         void restartModule();
         void updateModule();
         void initializeModule();
         void toggleClock();
         void enableVcdDump();
         void disableVcdDump();
-        void increaseSimTime();
+        void incrementSimTime();
         void setClockFrequencyHz(uint32_t freq);
 
         /* Getters for Module Inputs */

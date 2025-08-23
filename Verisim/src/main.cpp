@@ -6,10 +6,9 @@ int main(int argc, char** argv) {
     veriSim.enableVcdDump();
     veriSim.setClockFrequencyHz(2'000'000);
 
-
     for(int i=0; i<1000; i++) {
         veriSim.toggleClock();
-        veriSim.increaseSimTime();
+        veriSim.incrementSimTime();
         veriSim.updateModule();
     }
 
