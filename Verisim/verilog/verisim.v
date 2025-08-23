@@ -9,8 +9,8 @@ module verisim (
     input  wire [7:0]  buttons,        // 8 push buttons (active-high)
     input  wire [7:0]  dips,           // 8 DIP switches (active-high)
     input  wire        toggle_btn,     // 1 toggle button (mode / gate)
+    input  wire        RX0,            // general purpose input (serial or anything)
     input  wire        RX1,            // general purpose input (serial or anything)
-    input  wire        RX2,            // general purpose input (serial or anything)
     input  wire [31:0] in_bus0,        // 32-bit input bus #0
     input  wire [31:0] in_bus1,        // 32-bit input bus #1
 
@@ -23,8 +23,8 @@ module verisim (
     output wire        pwm_b,          // PWM B
     output wire        pwm_gen,        // General-purpose PWM
     output reg  [7:0]  leds,           // 8 discrete LEDs
-    output reg         TX1,            // general purpose output (loopback)
-    output reg         TX2             // general purpose output (loopback)
+    output reg         TX0,            // general purpose output (loopback)
+    output reg         TX1             // general purpose output (loopback)
 );
 
     // =========================================================================
@@ -40,15 +40,15 @@ module verisim (
     wire rst = ~rst_sync[1]; // active-high internal reset
 
     // =========================================================================
-    // Simple registered loopback for RX1/RX2 -> TX1/TX2
+    // Simple registered loopback for RX0/RX1 -> TX0/TX1
     // =========================================================================
     always @(posedge clk) begin
         if (rst) begin
+            TX0 <= 1'b0;
             TX1 <= 1'b0;
-            TX2 <= 1'b0;
         end else begin
+            TX0 <= RX0;
             TX1 <= RX1;
-            TX2 <= RX2;
         end
     end
 
