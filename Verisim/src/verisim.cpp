@@ -318,5 +318,16 @@ float VeriSim::getOutput_bus0_float() {
     std::memcpy(&f, &module->in_bus0, sizeof(f));
     return f;
 }
+int VeriSim::getOutput_bus1_int() {
+    return static_cast<int>(module->in_bus1);
+}
+char VeriSim::getOutput_bus1_char() {
+    return static_cast<char>(module->in_bus1 & 0xFF);
+}
+float VeriSim::getOutput_bus1_float() {
+    float f;
+    std::memcpy(&f, &module->in_bus1, sizeof(f));
+    return f;
+}
 
 } // namespace verisim
