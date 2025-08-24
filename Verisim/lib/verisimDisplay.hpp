@@ -32,7 +32,7 @@ c int: 1078530011
 #include <bitset>
 #include "verilated.h"
 
-namespace display {
+namespace verisim_ns {
 
     // ---------- Decimal ----------
     template<typename T>

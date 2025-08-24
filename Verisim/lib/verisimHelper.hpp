@@ -6,7 +6,7 @@
 #include <limits>
 #include <type_traits>
 
-namespace helper {
+namespace verisim_ns {
 
     template<typename T>
     inline bool getBit(T data, uint8_t idx) {

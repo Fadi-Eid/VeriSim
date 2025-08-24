@@ -158,33 +158,33 @@ IData VeriSim::getOutput_bus1() {
 
 /* Special getters for the inputs */
 CData VeriSim::getInput_button_x(CData idx) {
-    return helper::getBit(module->buttons, idx);
+    return verisim_ns::getBit(module->buttons, idx);
 }
 CData VeriSim::getInput_bus0_x(CData idx) {
-    return helper::getBit(module->in_bus0, idx);
+    return verisim_ns::getBit(module->in_bus0, idx);
 }
 CData VeriSim::getInput_bus1_x(CData idx) {
-    return helper::getBit(module->in_bus1, idx);
+    return verisim_ns::getBit(module->in_bus1, idx);
 }
 CData VeriSim::getInput_dip_x(CData idx) {
-    return helper::getBit(module->dips, idx);
+    return verisim_ns::getBit(module->dips, idx);
 }
 
 /* Special getters for the outputs */
 CData VeriSim::getOutput_led_x(CData idx) {
-    return helper::getBit(module->leds, idx);
+    return verisim_ns::getBit(module->leds, idx);
 }
 CData VeriSim::getOutput_bus0_x(CData idx) {
-    return helper::getBit(module->out_bus0, idx);
+    return verisim_ns::getBit(module->out_bus0, idx);
 }
 CData VeriSim::getOutput_bus1_x(CData idx) {
-    return helper::getBit(module->out_bus1, idx);
+    return verisim_ns::getBit(module->out_bus1, idx);
 }
 CData VeriSim::getOutput_sevenSegment0_x(CData idx) {
-    return helper::getBit(module->sevenseg0, idx);
+    return verisim_ns::getBit(module->sevenseg0, idx);
 }
 CData VeriSim::getOutput_sevenSegment1_x(CData idx) {
-    return helper::getBit(module->sevenseg1, idx);
+    return verisim_ns::getBit(module->sevenseg1, idx);
 }
 
 /* Modifier for Module Inputs */
@@ -204,28 +204,28 @@ void VeriSim::setInput_rx1() {
     module->RX1 = 1;
 }
 void VeriSim::setInput_buttons() {
-    helper::setData(module->buttons);
+    verisim_ns::setData(module->buttons);
 }
 void VeriSim::setInput_dips() {
-    helper::setData(module->dips);
+    verisim_ns::setData(module->dips);
 }
 void VeriSim::setInput_bus0() {
-    helper::setData(module->in_bus0);
+    verisim_ns::setData(module->in_bus0);
 }
 void VeriSim::setInput_bus1() {
-    helper::setData(module->in_bus1);
+    verisim_ns::setData(module->in_bus1);
 }
 void VeriSim::setInput_button_x(CData idx) {
-    helper::setBit(module->buttons, idx);
+    verisim_ns::setBit(module->buttons, idx);
 }
 void VeriSim::setInput_dip_x(CData idx) {
-    helper::setBit(module->dips, idx);
+    verisim_ns::setBit(module->dips, idx);
 }
 void VeriSim::setInput_bus0_x(CData idx) {
-    helper::setBit(module->in_bus0, idx);
+    verisim_ns::setBit(module->in_bus0, idx);
 }
 void VeriSim::setInput_bus1_x(CData idx) {
-    helper::setBit(module->in_bus1, idx);
+    verisim_ns::setBit(module->in_bus1, idx);
 }
 ////////////////////////
 void VeriSim::resetInput_clk() {
@@ -244,28 +244,28 @@ void VeriSim::resetInput_rx1() {
     module->RX1 = 0;
 }
 void VeriSim::resetInput_buttons() {
-    helper::resetData(module->buttons);
+    verisim_ns::resetData(module->buttons);
 }
 void VeriSim::resetInput_dips() {
-    helper::resetData(module->dips);
+    verisim_ns::resetData(module->dips);
 }
 void VeriSim::resetInput_bus0() {
-    helper::resetData(module->in_bus0);
+    verisim_ns::resetData(module->in_bus0);
 }
 void VeriSim::resetInput_bus1() {
-    helper::resetData(module->in_bus1);
+    verisim_ns::resetData(module->in_bus1);
 }
 void VeriSim::resetInput_button_x(CData idx) {
-    helper::resetBit(module->buttons, idx);
+    verisim_ns::resetBit(module->buttons, idx);
 }
 void VeriSim::resetInput_dip_x(CData idx) {
-    helper::resetBit(module->dips, idx);
+    verisim_ns::resetBit(module->dips, idx);
 }
 void VeriSim::resetInput_bus0_x(CData idx) {
-    helper::resetBit(module->in_bus0, idx);
+    verisim_ns::resetBit(module->in_bus0, idx);
 }
 void VeriSim::resetInput_bus1_x(CData idx) {
-    helper::resetBit(module->in_bus1, idx);
+    verisim_ns::resetBit(module->in_bus1, idx);
 }
 ////////////////////////
 void VeriSim::flipInput_clk() {
@@ -284,28 +284,28 @@ void VeriSim::flipInput_rx1() {
     module->RX1 = !module->RX1;
 }
 void VeriSim::flipInput_buttons() {
-    helper::flipData(module->buttons);
+    verisim_ns::flipData(module->buttons);
 }
 void VeriSim::flipInput_dips() {
-    helper::flipData(module->dips);
+    verisim_ns::flipData(module->dips);
 }
 void VeriSim::flipInput_bus0() {
-    helper::flipData(module->in_bus0);
+    verisim_ns::flipData(module->in_bus0);
 }
 void VeriSim::flipInput_bus1() {
-    helper::flipData(module->in_bus1);
+    verisim_ns::flipData(module->in_bus1);
 }
 void VeriSim::flipInput_button_x(CData idx) {
-    helper::flipBit(module->buttons, idx);
+    verisim_ns::flipBit(module->buttons, idx);
 }
 void VeriSim::flipInput_dip_x(CData idx) {
-    helper::flipBit(module->dips, idx);
+    verisim_ns::flipBit(module->dips, idx);
 }
 void VeriSim::flipInput_bus0_x(CData idx) {
-    helper::flipBit(module->in_bus0, idx);
+    verisim_ns::flipBit(module->in_bus0, idx);
 }
 void VeriSim::flipInput_bus1_x(CData idx) {
-    helper::flipBit(module->in_bus1, idx);
+    verisim_ns::flipBit(module->in_bus1, idx);
 }
 //////////////////////////////
 int VeriSim::getOutput_bus0_int() {

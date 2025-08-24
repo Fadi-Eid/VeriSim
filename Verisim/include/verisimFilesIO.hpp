@@ -6,37 +6,27 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <iostream>
 
-namespace verisim_files_ns {
-    enum ACCES_TYPE {
-        fileOutput,
-        fileInput
-    };
-
+namespace verisim_ns {
     /* This data type store time stamp/value pairs */
     struct Pair {
         uint64_t time_stamp_ns;
         uint8_t value;
     };
 
-    class VeriSimFilesIO {
+    class VeriSimFileIn {
     public:
-        VeriSimFilesIO(const std::string& fileName, ACCES_TYPE accessType);
-        ~VeriSimFilesIO();
-
-        // Append one pair to the file
-        void fileWrite(Pair& pair);
-
+        VeriSimFileIn(const std::string& fileName);
+        ~VeriSimFileIn();
+        const std::vector<Pair>& getPairs() const;
+    private:
         // Load all pairs from file into memory
         void fileLoad();
-
-        // Return the extracted pairs
-        const std::vector<Pair>& getPairs();
-
     private:
+        std::ifstream inputFile;
         std::string fileName;
         std::vector<Pair> pairs;
+        bool is_file_open = false;
     };
 
 }

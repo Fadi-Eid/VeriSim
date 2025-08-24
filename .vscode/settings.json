@@ -58,7 +58,8 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "bitset": "cpp"
     },
     "cmake.sourceDirectory": "/home/devuser/workspace/Verisim",
     "terminal.integrated.defaultProfile.linux": "bash"
