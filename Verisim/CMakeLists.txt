@@ -11,6 +11,8 @@ set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/verisim.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/verisimFilesIO.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/verisimModuleInputs.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/verisimModuleOutputs.cpp
     /usr/share/verilator/include/verilated.cpp
     /usr/share/verilator/include/verilated_vcd_c.cpp # only if trace enabled
 )
