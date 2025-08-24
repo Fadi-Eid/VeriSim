@@ -25,6 +25,10 @@ void VeriSim::incrementSimTime() {
     sim_time_ns += clock_period_ns / 2;
 }
 
+uint64_t VeriSim::getSimTime() const {
+    return sim_time_ns;
+}
+
 void VeriSim::restartModule() {
     delete module;
     module = new Vverisim();

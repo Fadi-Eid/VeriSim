@@ -6,6 +6,12 @@
 #include "verilated_vcd_c.h"
 
 namespace verisim_ns {
+    enum MODULE_INPUTS {
+        clk, rst_n, dips, buttons, toggle_button, rx0, rx1, in_bus0, in_bus1
+    };
+    enum MODULE_OUTPUTS {
+        clk, rst_n, dips, buttons, toggle_button, rx0, rx1, in_bus0, in_bus1
+    };
 
     class VeriSim {
     public:
@@ -21,6 +27,12 @@ namespace verisim_ns {
         void disableVcdDump();
         void incrementSimTime();
         void setClockFrequencyHz(uint32_t freq);
+        uint64_t getSimTime() const;
+
+        /* Input file related functions */
+        void connectFileToInput(MODULE_INPUTS input); // TODO: Implement later
+        void disconnectFileFromInput(MODULE_INPUTS input); // TODO: Implement later
+        void updateFileConnectedInputs(); // TODO: Implement later
 
         /* Getters for Module Inputs */
         CData getInput_clk();
@@ -121,12 +133,10 @@ namespace verisim_ns {
         Vverisim* module;
         bool isDumpEnabled = false;
         VerilatedVcdC* vcdDumper;
-        vluint64_t sim_time_ns = 0;
+        uint64_t sim_time_ns = 0;
         uint32_t clock_freq_hz = 1'000'000; // 1 MHz 
         uint32_t clock_period_ns = 1000; // 1us
     };
 } // namespace verisim_ns
-
-
 
 #endif
