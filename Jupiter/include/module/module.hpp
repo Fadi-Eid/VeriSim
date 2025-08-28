@@ -24,12 +24,14 @@ namespace ns_jupiter {
         Module();
         ~Module();
     public:
+        void     evaluate() const;
+        void     toggleClock();
+        void     restart();
         uint32_t getInput(Input sig) const;
         void     setInput(Input sig, uint32_t val);
-        void     resetInput(Input sig) { setInput(sig, 0); }
-        void     flipInput(Input sig);
         uint32_t getOutput(Output sig) const;
-
+    private:
+        void initialize();
     private:
         Vtop* top;
     };
