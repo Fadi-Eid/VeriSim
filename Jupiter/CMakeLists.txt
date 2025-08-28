@@ -10,6 +10,7 @@ set(VERILOG_SOURCES
 set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/module/module.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/files/fileInput.cpp
     /usr/share/verilator/include/verilated.cpp
     /usr/share/verilator/include/verilated_vcd_c.cpp
 )
@@ -43,6 +44,7 @@ add_executable(top ${CPP_SOURCES})
 target_include_directories(top PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include/module
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/files
     ${CMAKE_CURRENT_SOURCE_DIR}/lib
     ${VERILATOR_OUTPUT_DIR}
     /usr/share/verilator/include

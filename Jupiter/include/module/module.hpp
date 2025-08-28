@@ -7,6 +7,7 @@
 #include "Vtop.h"
 #include "verilated_vcd_c.h"
 #include <cstdint>
+#include <string>
 
 namespace ns_jupiter {
     enum class Input {
@@ -27,6 +28,10 @@ namespace ns_jupiter {
         void     evaluate() const;
         void     toggleClock();
         void     restart();
+        void     enableDump();
+        void     enableDump(std::string fileName);
+        void     disableDump();
+        void     dump(uint32_t timeStamp_ps) const;
         uint32_t getInput(Input sig) const;
         void     setInput(Input sig, uint32_t val);
         uint32_t getOutput(Output sig) const;
@@ -34,6 +39,8 @@ namespace ns_jupiter {
         void initialize();
     private:
         Vtop* top;
+        VerilatedVcdC* vcdDumper;
+        bool isDumpEnabled = false;
     };
 
 } // namespace ns_jupiter

@@ -1,5 +1,6 @@
 #include "module.hpp"
 #include <stdexcept>
+#include <string>
 
 namespace ns_jupiter {
 
@@ -15,6 +16,7 @@ namespace ns_jupiter {
     };
 
     Module::~Module() {
+        disableDump();
         delete top;
     }
 
@@ -106,6 +108,44 @@ namespace ns_jupiter {
         delete top;
         top = new Vtop();
         initialize();
+    }
+
+    void Module::enableDump() {
+        if(!isDumpEnabled) {
+            vcdDumper = new VerilatedVcdC;
+            Verilated::traceEverOn(true);
+            top->trace(vcdDumper, 99);
+            vcdDumper->open("dump.vcd");
+            isDumpEnabled = true;
+        } 
+    }
+
+    void Module::enableDump(std::string fileName) {
+        if(!isDumpEnabled) {
+            vcdDumper = new VerilatedVcdC;
+            Verilated::traceEverOn(true);
+            top->trace(vcdDumper, 99);
+            vcdDumper->open(fileName.c_str());
+            isDumpEnabled = true;
+        } 
+    }
+
+    void Module::disableDump() {
+        if (isDumpEnabled) {
+            if (vcdDumper) {
+                vcdDumper->close();   // properly close the dump file
+                delete vcdDumper;     // free the dumper
+                vcdDumper = nullptr;  // clear pointer
+            }
+            isDumpEnabled = false;
+        }
+    }
+
+    // VCD format dump (time stamp should be in picoseconds)
+    void Module::dump(uint32_t timeStamp_ps) const {
+        if(isDumpEnabled) {
+            vcdDumper->dump(timeStamp_ps);
+        }
     }
 
 } // namespace ns_jupiter
