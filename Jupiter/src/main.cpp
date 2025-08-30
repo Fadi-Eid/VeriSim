@@ -9,18 +9,12 @@ int main(int argc, char* argv[]) {
     // Instantiate a module
     Module module;
     module.enableDump("dumpster.vcd");
-    uint32_t time_stamp = 0;
-    
-    for(int i=0; i<100; i++) {
-        time_stamp += 100;
-        module.setBits(Input::Bus0, 0b101, 1);
+    FileIn fileIn("input_file_test.txt");
+    std::vector<Pair> pairs = fileIn.getPairs();
+    for(auto pair : pairs) {
+        module.setInput(Input::Bus0, pair.value);
         module.evaluate();
-        module.dump(time_stamp);
-
-        time_stamp += 100;
-        module.setBits(Input::Bus0, 0b101, 0);
-        module.evaluate();
-        module.dump(time_stamp);
+        module.dump(pair.time_stamp_ns * 1000);
     }
 
     return 0;

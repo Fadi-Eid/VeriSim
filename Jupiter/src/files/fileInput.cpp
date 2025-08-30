@@ -48,10 +48,10 @@ namespace ns_jupiter
             if (!(stream >> chunk)) continue;
             try {
                 int value = std::stoi(chunk);
-                if (value != 0 && value != 1) throw std::runtime_error("Invalid value");
-                pair.value = static_cast<uint8_t>(value);
+                if (value < 0) throw std::runtime_error("Invalid value");
+                pair.value = static_cast<uint32_t>(value);
             } catch (const std::exception& e) {
-                throw std::runtime_error("[ERROR] Failed to parse value in line: " + line);
+                throw std::runtime_error("[ERROR] Negative value at line " + line);
             }
 
             // Ordering check

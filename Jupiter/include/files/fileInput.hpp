@@ -11,7 +11,7 @@ namespace ns_jupiter {
     /* This data type store time stamp/value pairs */
     struct Pair {
         uint64_t time_stamp_ns;
-        uint8_t value;
+        uint32_t value;
     };
 
     class FileIn {
