@@ -11,6 +11,7 @@ set(CPP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/module/module.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/files/fileInput.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/files/fileOutput.cpp
     /usr/share/verilator/include/verilated.cpp
     /usr/share/verilator/include/verilated_vcd_c.cpp
 )
