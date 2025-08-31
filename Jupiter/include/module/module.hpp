@@ -46,6 +46,7 @@ namespace ns_jupiter {
         // === Output getters ===
         uint32_t getOutput(Output sig) const;
         bool getBit(Output sig, uint8_t idx) const;
+        float getFloat(Output sig) const;
 
     private:
         void initialize();

@@ -85,6 +85,9 @@ namespace ns_jupiter {
     }
 
     void Module::setFloat(Input sig, float f) {
+        if(sig != Input::Bus0 && sig != Input::Bus1) {
+            throw std::invalid_argument("Signal cannot be assigned to float");
+        }
         static_assert(sizeof(float) == 4, "float must be 32 bits");
         uint32_t bits;
         std::memcpy(&bits, &f, sizeof(bits));
@@ -139,6 +142,17 @@ namespace ns_jupiter {
 
     bool Module::getBit(Output sig, uint8_t idx) const {
         return (getOutput(sig) >> idx) & 1;
+    }
+
+    float Module::getFloat(Output sig) const {
+        if (sig != Output::Bus0 && sig != Output::Bus1) {
+            throw std::invalid_argument("Signal cannot be interpreted as float");
+        }
+        static_assert(sizeof(float) == 4, "float must be 32 bits");
+        uint32_t bits = getOutput(sig);
+        float f;
+        std::memcpy(&f, &bits, sizeof(f));
+        return f;
     }
 
     // ============================

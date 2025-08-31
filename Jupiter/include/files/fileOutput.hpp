@@ -8,13 +8,20 @@
 namespace ns_jupiter {
     struct Pair; // forward declaration for symmetry
 
+    enum class OutputFormat {
+        DECIMAL,
+        HEX,
+        BINARY,
+        FLOAT
+    };
+
     class FileOut {
     public:
         explicit FileOut(const std::string& fileName);
         ~FileOut();
 
         // Append a new time/value pair to the file
-        void append(uint64_t time_stamp_ns, uint32_t value);
+        void append(uint64_t time_stamp_ns, uint32_t value, OutputFormat fm);
 
     private:
         std::ofstream outputFile;
