@@ -15,8 +15,8 @@ namespace ns_jupiter {
     };
 
     enum class Output {
-        Leds, PwmRed, PwmGreen, PwmBlue, PwmGeneral,
-        Tx0, Tx1, Bus0, Bus1, SevenSegment0, SevenSegment1
+        Leds, Gauge, SevenSegment0, SevenSegment1,
+        Tx0, Tx1, Bus0, Bus1
     };
 
     class Module {

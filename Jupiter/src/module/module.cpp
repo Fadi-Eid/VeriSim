@@ -125,11 +125,7 @@ namespace ns_jupiter {
     uint32_t Module::getOutput(Output sig) const {
         switch (sig) {
             case Output::Leds:          return top->leds;
-            case Output::PwmRed:        return top->pwm_r;
-            case Output::PwmGreen:      return top->pwm_g;
-            case Output::PwmBlue:       return top->pwm_b;
-            case Output::PwmGeneral:    return top->pwm_gen;
-            case Output::Tx0:           return top->TX0;
+            case Output::Gauge:         return top->gauge;
             case Output::Tx1:           return top->TX1;
             case Output::Bus0:          return top->out_bus0;
             case Output::Bus1:          return top->out_bus1;
@@ -170,10 +166,7 @@ namespace ns_jupiter {
         top->in_bus1    = 0;
         top->dips       = 0;
 
-        top->pwm_b     = 0;
-        top->pwm_r     = 0;
-        top->pwm_g     = 0;
-        top->pwm_gen   = 0;
+        top->gauge     = 0;
         top->out_bus0  = 0;
         top->out_bus1  = 0;
         top->TX0       = 0;

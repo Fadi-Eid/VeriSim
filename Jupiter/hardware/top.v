@@ -15,18 +15,15 @@ module top (
     input  wire [31:0] in_bus1,        // 32-bit input bus #1
 
     // Outputs
-    output wire [7:0] sevenseg0,     // right digit
-    output wire [7:0] sevenseg1,     // left digit
-    output reg  [31:0] out_bus0,       // 32-bit output bus #0
-    output reg  [31:0] out_bus1,       // 32-bit output bus #1
-    output wire        pwm_r,          // PWM R (or buzzer)
-    output wire        pwm_g,          // PWM G
-    output wire        pwm_b,          // PWM B
-    output wire        pwm_gen,        // General-purpose PWM
-    output reg  [7:0]  leds,           // 8 discrete LEDs
-    output reg         TX0,            // general purpose output (loopback)
-    output reg         TX1             // general purpose output (loopback)
-);
+    output wire [7:0]  sevenseg0,   // right digit (7-seg encoding)
+    output wire [7:0]  sevenseg1,   // left digit (7-seg encoding)
+    output reg  [31:0] out_bus0,    // 32-bit output bus #0
+    output reg  [31:0] out_bus1,    // 32-bit output bus #1
+    output reg  [7:0]  leds,        // 8 discrete LEDs
+    output reg         TX0,         // general purpose output (loopback)
+    output reg         TX1,         // general purpose output (loopback)
+    output reg  [7:0]  gauge        // 8-bit "gauge" value (0–255 → bar)
+    );
 
     // =========================================================================
     // Reset synchronizer (convert rst_n to a clean synchronous reset 'rst')
@@ -65,11 +62,8 @@ module top (
 
     // =========================================================================
     // Seven-segment: show #buttons pressed (left) and dips[3:0] (right)
-    // Each display = 8 bits: {dp, g, f, e, d, c, b, a} active-low common-anode
-    // If yours is common-cathode, invert the outputs.
     // =========================================================================
 
-    // Count number of pressed buttons (0..8), saturate to 0xF for safety
     function [3:0] popcount8;
         input [7:0] v;
         integer i;
@@ -85,10 +79,9 @@ module top (
     wire [3:0] nibble_left  = popcount8(buttons); // 0..8
     wire [3:0] nibble_right = dips[3:0];
 
-    function [7:0] sevenseg_hex; // active-low segments for hex 0..F + dp=1(off)
+    function [7:0] sevenseg_hex; // active-low segments for hex 0..F
         input [3:0] hex;
         begin
-            //          dp g f e d c b a  (active-low)
             case (hex)
                 4'h0: sevenseg_hex = 8'b11000000; // 0
                 4'h1: sevenseg_hex = 8'b11111001; // 1
@@ -111,51 +104,22 @@ module top (
         end
     endfunction
 
-    wire [7:0] seg_left  = sevenseg_hex(nibble_left);
-    wire [7:0] seg_right = sevenseg_hex(nibble_right);
-
-    assign sevenseg0 = seg_right; // right display (dips[3:0])
-    assign sevenseg1 = seg_left;  // left display (#buttons pressed)
+    assign sevenseg0 = sevenseg_hex(nibble_right);
+    assign sevenseg1 = sevenseg_hex(nibble_left);
 
     // =========================================================================
     // Output buses: simple demo transforms
     // =========================================================================
     always @(posedge clk) begin
         if (rst) begin
-            out_bus0 <= 32'd0;
-            out_bus1 <= 32'd0;
+            out_bus0  <= 32'd0;
+            out_bus1  <= 32'd0;
+            gauge     <= 8'd0;
         end else begin
-            out_bus0 <= in_bus0 + in_bus1;                       // integer sum
-            out_bus1 <= {in_bus0[15:0], in_bus1[15:0]};          // concat halves
-            // Note: If you pass IEEE-754 single/double bit patterns, these ops
-            // are "bitwise"/integer. Replace with an FP core if you need real FP.
+            out_bus0  <= in_bus0 + in_bus1;              // integer sum
+            out_bus1  <= {in_bus0[15:0], in_bus1[15:0]}; // concat halves
+            gauge     <= toggle_btn ? in_bus1[7:0] : 8'd0;
         end
     end
-
-    // =========================================================================
-    // PWM: 8-bit duty from buses
-    // =========================================================================
-    wire [7:0] duty_r   = in_bus0[7:0];
-    wire [7:0] duty_g   = in_bus0[15:8];
-    wire [7:0] duty_b   = in_bus0[23:16];
-    wire [7:0] duty_gen = in_bus1[7:0];
-
-    // Simple 8-bit free-running counter for PWM
-    reg [7:0] pwm_cnt;
-    always @(posedge clk) begin
-        if (rst)
-            pwm_cnt <= 8'd0;
-        else
-            pwm_cnt <= pwm_cnt + 8'd1;
-    end
-
-    // RGB PWMs
-    assign pwm_r = (pwm_cnt < duty_r)   ? 1'b1 : 1'b0;
-    assign pwm_g = (pwm_cnt < duty_g)   ? 1'b1 : 1'b0;
-    assign pwm_b = (pwm_cnt < duty_b)   ? 1'b1 : 1'b0;
-
-    // Gate the general PWM with toggle_btn
-    // (Debounce externally if your button is noisy)
-    assign pwm_gen = toggle_btn ? (pwm_cnt < duty_gen) : 1'b0;
 
 endmodule
