@@ -54,4 +54,14 @@ target_include_directories(top PRIVATE
 
 add_dependencies(top top_generated)
 
-target_link_libraries(top PRIVATE ${VERILATOR_OUTPUT_DIR}/Vtop__ALL.a)
+# --- Raylib via pkg-config ---
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(RAYLIB REQUIRED raylib)
+
+target_include_directories(top PRIVATE ${RAYLIB_INCLUDE_DIRS})
+target_link_directories(top PRIVATE ${RAYLIB_LIBRARY_DIRS})
+
+target_link_libraries(top PRIVATE
+    ${VERILATOR_OUTPUT_DIR}/Vtop__ALL.a
+    ${RAYLIB_LIBRARIES}
+)
