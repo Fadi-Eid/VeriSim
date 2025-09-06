@@ -103,6 +103,7 @@ namespace ns_jupiter {
     
     /* --- Composition: the whole board state --- */
     struct BoardState {
+        SystemState system;
         Outputs outputs;
         Inputs inputs;
     };

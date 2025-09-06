@@ -6,7 +6,8 @@
                 "${workspaceFolder}/Jupiter/include/**",
                 "${workspaceFolder}/Jupiter/lib/**",
                 "${workspaceFolder}/Jupiter/build/verilated/**",
-                "/usr/share/verilator/include"
+                "/usr/share/verilator/include",
+                "${workspaceFolder}/Jupiter/include/states"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++",
