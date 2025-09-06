@@ -1,11 +1,11 @@
 # .devcontainer/Dockerfile
-FROM verisim-base:latest
+FROM jupiter-base:latest
 
 USER root
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    gtkwave
+# RUN apt-get update && \
+#     apt-get install -y --no-install-recommends \
+#     gtkwave
 
 # RUN pip install pyserial
 

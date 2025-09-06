@@ -61,6 +61,6 @@
         "iomanip": "cpp",
         "bitset": "cpp"
     },
-    "cmake.sourceDirectory": "/home/devuser/workspace/Verisim",
+    "cmake.sourceDirectory": "/home/fadieid/Documents/VeriSim/Jupiter",
     "terminal.integrated.defaultProfile.linux": "bash"
 }

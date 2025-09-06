@@ -85,6 +85,6 @@ namespace ns_jupiter {
     inline void printHex(const IData& val, const char* label = "") { printHex<uint32_t>(val, label); }
     inline void printBin(const IData& val, const char* label = "") { printBin<uint32_t>(val, label); }
 
-} // namespace display
+} // namespace ns_jupiter
 
-#endif // VERISIM_DISPLAY_HPP
+#endif // DATA_DISPLAY_HPP

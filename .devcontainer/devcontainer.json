@@ -1,7 +1,7 @@
 {
-  "name": "VeriSim Dev (Ubuntu 22.04)",
+  "name": "Jupiter Dev (Ubuntu 22.04)",
   "dockerComposeFile": "docker-compose.yaml",
-  "service": "verisim-dev",
+  "service": "jupiter-dev",
   "workspaceFolder": "/home/devuser/workspace",
   "customizations": {
     "vscode": {

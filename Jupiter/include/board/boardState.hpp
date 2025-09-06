@@ -49,8 +49,10 @@ namespace ns_jupiter {
     };
     
     struct Inputs {
-        InBusState bus[2];
-        RXState rx[2];
+        InBusState bus0;
+        InBusState bus1;
+        RXState rx0;
+        RXState rx1;
         DipSwitchesState dips;
         ButtonsState buttons;
         ToggleButtonState toggle_btn;
@@ -90,9 +92,12 @@ namespace ns_jupiter {
 
     struct Outputs {
         LEDsState leds;
-        SevenSegState sevenSeg[2]; // 0 = right, 1 = left
-        OutBusState bus[2];
-        TXState tx[2];
+        SevenSegState sevenSeg0;
+        SevenSegState sevenSeg1;
+        OutBusState bus0;
+        OutBusState bus1;
+        TXState tx0;
+        TXState tx1;
         GaugeState gauge;
     };
     

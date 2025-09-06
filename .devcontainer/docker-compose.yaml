@@ -1,9 +1,9 @@
 services:
-  verisim-dev:
+  jupiter-dev:
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: verisim-dev-container
+    container_name: jupiter-dev-container
     command: sleep infinity
     environment:
       - DISPLAY=${DISPLAY}
