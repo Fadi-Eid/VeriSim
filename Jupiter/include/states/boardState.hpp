@@ -23,13 +23,13 @@ namespace ns_jupiter {
     };
 
     struct ButtonsState {
-        uint8_t value = 0;   // 8-bit bus
+        uint8_t val = 0;   // 8-bit bus
         bool sw = false;
         bool invert = false;
     };
 
     struct DipSwitchesState {
-        uint8_t value = 0;   // 8-bit bus
+        uint8_t val = 0;   // 8-bit bus
         bool sw = false;
         bool set_all = false;
         bool reset_all = false;

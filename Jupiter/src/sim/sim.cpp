@@ -1,15 +1,26 @@
 #include "sim.hpp"
 
 namespace ns_jupiter {
-    Sim::Sim() : state(), ui(state, 800, 600) {}
+
+    Sim::Sim() : state(), module(), ui(state, 800, 600) {}
 
     void Sim::run() {
         ui.init();
 
         while (!WindowShouldClose()) {
-            // For testing, toggle LED output every frame
-            state.outputs.leds.val ^= 0x1;
+            ui.pollInput();
 
+            // check the board state and update module inputs accordingly
+
+            // read from files
+
+            // evaluate module
+
+            // extract module outputs and update board state
+
+            // write to files
+
+            // --- Render everything (inputs and outputs change) ---
             ui.render();
         }
 
