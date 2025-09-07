@@ -51,13 +51,37 @@ module top (
     end
 
     // =========================================================================
-    // LEDs: demo logic -> XOR buttons and dips
+    // LEDs: dynamic pattern, 250ms period, 10MHz clock
     // =========================================================================
-    always @(posedge clk) begin
+    reg [20:0] clk_div;   // 21-bit counter
+    reg fast_clk_d;       // delayed version to detect rising edge
+    reg [7:0] led_pattern;
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            clk_div     <= 21'd0;
+            fast_clk_d  <= 1'b0;
+            led_pattern <= 8'b10101010; // initial pattern
+        end else begin
+            clk_div <= clk_div + 1;
+            fast_clk_d <= clk_div[20];  // delayed
+
+            // Rotate pattern on rising edge of fast_clk
+            if (~fast_clk_d & clk_div[20])
+                led_pattern <= {led_pattern[6:0], led_pattern[7]};
+        end
+    end
+
+    always @(posedge clk or posedge rst) begin
         if (rst)
             leds <= 8'h00;
-        else
-            leds <= buttons ^ dips;
+        else begin
+            // LEDs 0..3: buttons XOR dips
+            leds[3:0] <= buttons[3:0] ^ dips[3:0];
+
+            // LEDs 4..7: pattern XOR dips[7:4]
+            leds[7:4] <= led_pattern[7:4] ^ dips[7:4];
+        end
     end
 
     // =========================================================================

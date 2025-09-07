@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <cstring>   // memcpy
 #include <string>
+#include <iostream>
 
 namespace ns_jupiter {
 
@@ -157,7 +158,7 @@ namespace ns_jupiter {
 
     void Module::initialize() {
         top->clk        = 0;
-        top->rst_n      = 0;
+        top->rst_n      = 1;
         top->buttons    = 0;
         top->toggle_btn = 0;
         top->RX0        = 0;
