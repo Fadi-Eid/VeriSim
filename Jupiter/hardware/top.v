@@ -84,24 +84,28 @@ module top (
         end
     end
 
+        // =========================================================================
+    // Seven-segment: increment once per second (10 MHz clock)
     // =========================================================================
-    // Seven-segment: show #buttons pressed (left) and dips[3:0] (right)
-    // =========================================================================
+    reg [23:0] sec_div;
+    reg [7:0] sec_counter; // two BCD/hex digits (0x00–0xFF)
 
-    function [3:0] popcount8;
-        input [7:0] v;
-        integer i;
-        reg [3:0] c;
-        begin
-            c = 4'd0;
-            for (i = 0; i < 8; i = i + 1)
-                c = c + (v[i] ? 4'd1 : 4'd0);
-            popcount8 = c;
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            sec_div     <= 24'd0;
+            sec_counter <= 8'd0;
+        end else begin
+            if (sec_div == 24'd9_999_999) begin
+                sec_div <= 24'd0;
+                sec_counter <= sec_counter + 1'b1; // wrap naturally at 255
+            end else begin
+                sec_div <= sec_div + 1'b1;
+            end
         end
-    endfunction
+    end
 
-    wire [3:0] nibble_left  = popcount8(buttons); // 0..8
-    wire [3:0] nibble_right = dips[3:0];
+    wire [3:0] nibble_right = sec_counter[3:0];   // low digit
+    wire [3:0] nibble_left  = sec_counter[7:4];   // high digit
 
     function [7:0] sevenseg_hex; // active-low segments for hex 0..F
         input [3:0] hex;

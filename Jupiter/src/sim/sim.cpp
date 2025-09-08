@@ -12,7 +12,7 @@ namespace ns_jupiter
     {
         ui.init();
 
-        const double clk_period_s = 1.0 / 10e6;  // 10 MHz
+        const double clk_period_s = 1.0 / 10e6; // 10 MHz
         const double frame_time_s = 1.0 / 60.0; // 60 FPS
 
         while (!WindowShouldClose())
@@ -25,14 +25,18 @@ namespace ns_jupiter
             {
                 module.toggleClock();
                 module.evaluate();
-                t_frame += clk_period_s;
+                t_frame += clk_period_s/2.0;
             }
 
             // Update UI, module inputs/outputs
             ui.pollInput();
+
             module.setInput(Input::Buttons, state.inputs.buttons.val);
             module.setInput(Input::Dips, state.inputs.dips.val);
+            state.outputs.sevenSeg0.val = module.getOutput(Output::SevenSegment0);
+            state.outputs.sevenSeg1.val = module.getOutput(Output::SevenSegment1);
             state.outputs.leds.val = module.getOutput(Output::Leds);
+
             ui.render();
 
             // Calculate elapsed time
@@ -45,9 +49,9 @@ namespace ns_jupiter
                 std::cout << "module is in sync" << std::endl;
                 std::this_thread::sleep_for(std::chrono::duration<double>(frame_time_s - elapsed.count()));
             }
-            else{
+            else
+            {
                 std::cout << "module is behind" << std::endl;
-
             }
         }
 

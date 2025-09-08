@@ -5,7 +5,8 @@ namespace ns_jupiter
 {
 
     UI::UI(BoardState &s, int width, int height)
-        : state(s), screenWidth(width), screenHeight(height)
+        : state(s), screenWidth(width), screenHeight(height),
+          sevenSeg0({{670, 80, 60, 100}, 0}), sevenSeg1({{600,80, 60, 100}, 1})
     {
         leds.reserve(8);
         buttons.reserve(8);
@@ -68,8 +69,10 @@ namespace ns_jupiter
             btn.draw(state.inputs.buttons.val);
         for (auto &dip : dips)
             dip.draw(state.inputs.dips.val);
+        
+        sevenSeg0.draw(state.outputs.sevenSeg0.val);
+        sevenSeg1.draw(state.outputs.sevenSeg1.val);
 
         EndDrawing();
     }
-
 } // namespace ns_jupiter
