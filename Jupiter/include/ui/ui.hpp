@@ -148,6 +148,35 @@ namespace ns_jupiter
         }
     };
 
+    struct Gauge
+    {
+        Rectangle bounds;
+        Color fillColor = BLUE;
+        Color backColor = LIGHTGRAY;
+
+        void draw(uint8_t value) const
+        {
+            // Draw background
+            DrawRectangleRec(bounds, backColor);
+
+            // Draw filled portion proportional to value (0-255)
+            float widthFilled = bounds.width * (value / 255.0f);
+            DrawRectangle(bounds.x, bounds.y, widthFilled, bounds.height, fillColor);
+
+            // Draw border
+            DrawRectangleLinesEx(bounds, 2.0f, BLACK);
+
+            // Draw label
+            DrawText("GAUGE", bounds.x + bounds.width / 2 - MeasureText("GAUGE", 10) / 2,
+                     bounds.y + bounds.height + 5, 10, BLACK);
+
+            // Optionally, draw numeric value
+            DrawText(TextFormat("%d", value),
+                     bounds.x + bounds.width / 2 - MeasureText(TextFormat("%d", value), 10) / 2,
+                     bounds.y - 15, 10, BLACK);
+        }
+    };
+
     class UI
     {
     private:
@@ -159,6 +188,7 @@ namespace ns_jupiter
         std::vector<DipSwitch> dips;
         SevenSegment sevenSeg0;
         SevenSegment sevenSeg1;
+        Gauge gauge;
 
     public:
         // Constructor

@@ -142,12 +142,48 @@ module top (
         if (rst) begin
             out_bus0  <= 32'd0;
             out_bus1  <= 32'd0;
-            gauge     <= 8'd0;
         end else begin
             out_bus0  <= in_bus0 + in_bus1;              // integer sum
             out_bus1  <= {in_bus0[15:0], in_bus1[15:0]}; // concat halves
-            gauge     <= toggle_btn ? in_bus1[7:0] : 8'd0;
         end
     end
+
+    // =========================================================================
+    // Gauge demo: slow sweep 0..255 up and down (fixed)
+    // =========================================================================
+    reg [19:0] gauge_div;   // clock divider
+    reg [7:0]  gauge_val;
+    reg        gauge_dir;    // 0 = up, 1 = down
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            gauge_div <= 20'd0;
+            gauge_val <= 8'd0;
+            gauge_dir <= 1'b0;
+            gauge     <= 8'd0;
+        end else begin
+            if (gauge_div == 20'd999_999) begin
+                gauge_div <= 20'd0;
+
+                // update value depending on direction
+                if (gauge_dir == 1'b0) begin
+                    if (gauge_val == 8'd255) 
+                        gauge_dir <= 1'b1; // flip direction
+                    else
+                        gauge_val <= gauge_val + 1;
+                end else begin
+                    if (gauge_val == 8'd0)
+                        gauge_dir <= 1'b0; // flip direction
+                    else
+                        gauge_val <= gauge_val - 1;
+                end
+
+                gauge <= gauge_val;
+            end else begin
+                gauge_div <= gauge_div + 1;
+            end
+        end
+    end
+
 
 endmodule

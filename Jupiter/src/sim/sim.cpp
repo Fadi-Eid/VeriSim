@@ -33,9 +33,11 @@ namespace ns_jupiter
 
             module.setInput(Input::Buttons, state.inputs.buttons.val);
             module.setInput(Input::Dips, state.inputs.dips.val);
+
             state.outputs.sevenSeg0.val = module.getOutput(Output::SevenSegment0);
             state.outputs.sevenSeg1.val = module.getOutput(Output::SevenSegment1);
-            state.outputs.leds.val = module.getOutput(Output::Leds);
+            state.outputs.leds.val =      module.getOutput(Output::Leds);
+            state.outputs.gauge.val =     module.getOutput(Output::Gauge);
 
             ui.render();
 
