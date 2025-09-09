@@ -4,6 +4,8 @@
 #include "boardState.hpp"
 #include "raylib.h"
 #include <vector>
+#include <functional>
+#include <iostream>
 
 namespace ns_jupiter
 {
@@ -176,6 +178,108 @@ namespace ns_jupiter
                      bounds.y - 15, 10, BLACK);
         }
     };
+    struct SmallButton
+    {
+        Rectangle bounds;
+        const char *label;
+        std::function<void(BoardState &)> action;
+
+        void poll(BoardState &state) const
+        {
+            Vector2 mouse = GetMousePosition();
+            if (CheckCollisionPointRec(mouse, bounds) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            {
+                action(state);
+            }
+        }
+
+        void draw() const
+        {
+            DrawRectangleRec(bounds, LIGHTGRAY);
+            DrawRectangleLinesEx(bounds, 1.0f, BLACK);
+            int tw = MeasureText(label, 10);
+            DrawText(label, bounds.x + bounds.width / 2 - tw / 2, bounds.y + bounds.height / 2 - 5, 10, BLACK);
+        }
+    };
+
+    struct ToggleSwitch
+    {
+        Rectangle bounds;
+        const char *label;
+
+        void poll(BoardState &state) const
+        {
+            Vector2 mouse = GetMousePosition();
+            if (CheckCollisionPointRec(mouse, bounds) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            {
+                state.inputs.dips.sw = !state.inputs.dips.sw;
+            }
+        }
+
+        void draw(const BoardState &state) const
+        {
+            DrawRectangleRec(bounds, state.inputs.dips.sw ? GREEN : RED);
+            DrawRectangleLinesEx(bounds, 1.0f, BLACK);
+            int tw = MeasureText(label, 10);
+            DrawText(label, bounds.x + bounds.width / 2 - tw / 2, bounds.y + bounds.height / 2 - 5, 10, BLACK);
+        }
+    };
+    struct TextBox
+    {
+        Rectangle bounds;
+        std::string text;
+        bool active = false;
+
+        void poll(BoardState &state)
+        {
+            // Toggle focus if clicked
+            if (CheckCollisionPointRec(GetMousePosition(), bounds) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            {
+                active = true;
+            }
+            else if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            {
+                active = false;
+            }
+
+            if (active)
+            {
+                int key = GetCharPressed();
+                while (key > 0)
+                {
+                    if ((key >= 32 && key <= 125) || key == '.' || key == '-')
+                    {
+                        text.push_back((char)key);
+                    }
+                    key = GetCharPressed();
+                }
+                if (IsKeyPressed(KEY_BACKSPACE) && !text.empty())
+                {
+                    text.pop_back();
+                }
+                if (IsKeyPressed(KEY_ENTER))
+                {
+                    // Convert entered number to int (truncate if decimal)
+                    try
+                    {
+                        state.inputs.bus0.val = (int)std::stod(text);
+                    }
+                    catch (...)
+                    {
+                        state.inputs.bus0.val = 0;
+                    }
+                    active = false;
+                }
+            }
+        }
+
+        void draw() const
+        {
+            DrawRectangleRec(bounds, RAYWHITE);
+            DrawRectangleLinesEx(bounds, 2, active ? RED : DARKGRAY);
+            DrawText(text.c_str(), bounds.x + 5, bounds.y + 5, 20, BLACK);
+        }
+    };
 
     class UI
     {
@@ -189,6 +293,12 @@ namespace ns_jupiter
         SevenSegment sevenSeg0;
         SevenSegment sevenSeg1;
         Gauge gauge;
+        std::vector<SmallButton> dipControls;
+        ToggleSwitch dipSwitch;
+        SmallButton pushBtnsInvert;
+        Rectangle dipsBox;
+        Rectangle buttonsBox;
+        TextBox inBus0Box;
 
     public:
         // Constructor

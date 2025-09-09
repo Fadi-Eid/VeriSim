@@ -31,8 +31,18 @@ namespace ns_jupiter
             // Update UI, module inputs/outputs
             ui.pollInput();
 
-            module.setInput(Input::Buttons, state.inputs.buttons.val);
-            module.setInput(Input::Dips, state.inputs.dips.val);
+            uint8_t btnVal = state.inputs.buttons.val;
+            if (state.inputs.buttons.invert)
+                btnVal = ~btnVal;
+            module.setInput(Input::Buttons, btnVal);
+
+            module.setInput(Input::Bus0, state.inputs.bus0.val);
+            std::cout << (int)state.inputs.bus0.val << std::endl;
+
+            if(state.inputs.dips.sw)
+                module.setInput(Input::Dips, state.inputs.dips.val);
+            else
+                module.setInput(Input::Dips, 0);
 
             state.outputs.sevenSeg0.val = module.getOutput(Output::SevenSegment0);
             state.outputs.sevenSeg1.val = module.getOutput(Output::SevenSegment1);
@@ -48,7 +58,7 @@ namespace ns_jupiter
             // Sleep remaining time if needed
             if (elapsed.count() < frame_time_s)
             {
-                std::cout << "module is in sync" << std::endl;
+                // std::cout << "module is in sync" << std::endl;
                 std::this_thread::sleep_for(std::chrono::duration<double>(frame_time_s - elapsed.count()));
             }
             else
